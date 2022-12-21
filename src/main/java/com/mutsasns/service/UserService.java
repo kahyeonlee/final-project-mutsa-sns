@@ -1,5 +1,6 @@
 package com.mutsasns.service;
 
+import com.mutsasns.configuration.EncoderConfig;
 import com.mutsasns.domain.User;
 import com.mutsasns.domain.dto.UserDto;
 import com.mutsasns.domain.dto.UserJoinRequest;
@@ -8,6 +9,7 @@ import com.mutsasns.exception.ErrorCode;
 import com.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+
 
     public UserDto join(UserJoinRequest dto) {
 
@@ -27,7 +31,8 @@ public class UserService {
                 });
 
         //저장
-        User savedUser = userRepository.save(dto.toEntity());
+        String securityPassword = encoder.encode(dto.getPassword());
+        User savedUser = userRepository.save(dto.toEntity(securityPassword));
 
         return UserDto.builder()
                 .id(savedUser.getId())
