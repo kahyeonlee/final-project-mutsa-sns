@@ -1,6 +1,7 @@
 package com.mutsasns.service;
 
 import com.mutsasns.domain.User;
+import com.mutsasns.domain.dto.UserDto;
 import com.mutsasns.domain.dto.UserJoinRequest;
 import com.mutsasns.exception.AppException;
 import com.mutsasns.exception.ErrorCode;
@@ -17,7 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public String join(UserJoinRequest dto) {
+    public UserDto join(UserJoinRequest dto) {
 
         //userName 중복체크
         userRepository.findByUserName(dto.getUserName())
@@ -26,12 +27,12 @@ public class UserService {
                 });
 
         //저장
-        User user = User.builder()
-                .userName(dto.getUserName())
-                .password(dto.getPassword())
-                .build();
-        userRepository.save(user);
+        User savedUser = userRepository.save(dto.toEntity());
 
-        return "SUCCESS";
+        return UserDto.builder()
+                .id(savedUser.getId())
+                .userName(savedUser.getUserName())
+                .password(savedUser.getPassword())
+                .build();
     }
 }
