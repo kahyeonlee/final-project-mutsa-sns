@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode {
-    USERNAME_DUPLICATION(HttpStatus.CONFLICT,"ID가 중복됩니다.");
+    USERNAME_DUPLICATION(HttpStatus.CONFLICT,"ID가 중복됩니다."),
+    USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND,"userName이 중복됩니다."),
+
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED,"password가 일치하지않습니다.");
 
     private HttpStatus httpStatus;
     private String message;
