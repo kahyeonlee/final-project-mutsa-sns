@@ -2,6 +2,7 @@ package com.mutsasns.service;
 
 import com.mutsasns.configuration.EncoderConfig;
 import com.mutsasns.domain.User;
+import com.mutsasns.domain.UserRole;
 import com.mutsasns.domain.dto.UserDto;
 import com.mutsasns.domain.dto.UserJoinRequest;
 import com.mutsasns.domain.dto.UserLoginRequest;
@@ -44,7 +45,7 @@ public class UserService {
                 .id(savedUser.getId())
                 .userName(savedUser.getUserName())
                 .password(savedUser.getPassword())
-                .userRole(savedUser.getRole())
+                .role(savedUser.getRole())
                 .build();
     }
 

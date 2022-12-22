@@ -1,6 +1,7 @@
 package com.mutsasns.domain.dto;
 
 import com.mutsasns.domain.User;
+import com.mutsasns.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,6 +15,7 @@ public class UserJoinRequest {
         return  User.builder()
                 .userName(this.userName)
                 .password(password)
+                .role(UserRole.USER)
                 .build();
     }
 
