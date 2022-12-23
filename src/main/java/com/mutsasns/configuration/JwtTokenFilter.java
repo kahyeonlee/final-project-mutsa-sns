@@ -1,6 +1,6 @@
 package com.mutsasns.configuration;
 
-import com.mutsasns.domain.User;
+import com.mutsasns.domain.entity.User;
 import com.mutsasns.service.UserService;
 import com.mutsasns.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;

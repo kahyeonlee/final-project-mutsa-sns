@@ -1,7 +1,7 @@
 package com.mutsasns.exception;
 
-import com.mutsasns.domain.dto.ErrorResponse;
-import com.mutsasns.domain.Response;
+import com.mutsasns.domain.response.ErrorResponse;
+import com.mutsasns.domain.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
