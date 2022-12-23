@@ -1,5 +1,6 @@
 package com.mutsasns.service;
 
+import com.mutsasns.domain.dto.PostDeleteRequest;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.dto.PostCreateRequest;
 import com.mutsasns.domain.dto.PostDto;
@@ -10,6 +11,8 @@ import com.mutsasns.repository.PostRepository;
 import com.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +25,6 @@ public class PostService {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
 
-
         //저장
         Post savedPost = postRepository.save(Post.of(dto.getTitle(),dto.getBody(),user));
 
@@ -31,5 +33,25 @@ public class PostService {
                 .title(savedPost.getTitle())
                 .body(savedPost.getBody())
                 .build();
+    }
+
+    public boolean delete(Long postId, String userName) {
+        //postId 없을때 에러 처리
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", userName)));
+
+        //userName 없을때 에러 처리
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
+
+        //userName이 일치하지 않을때 에러 처리
+        if (!Objects.equals(user.getUserName(),userName)) {
+            throw new AppException(ErrorCode.INVALID_PERMISSION,String.format("%s invaild permission", userName));
+        }
+
+        //삭제
+        postRepository.delete(post);
+
+        return true;
     }
 }
