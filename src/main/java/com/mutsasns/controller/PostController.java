@@ -1,5 +1,7 @@
 package com.mutsasns.controller;
 
+import com.mutsasns.domain.dto.PostDeleteRequest;
+import com.mutsasns.domain.response.PostDeleteResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.domain.dto.PostCreateRequest;
 import com.mutsasns.domain.response.PostCreateResponse;
@@ -17,11 +19,18 @@ import org.springframework.security.core.Authentication;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping ("/posts")
-    public Response<PostCreateResponse> list(@RequestBody PostCreateRequest dto,@ApiIgnore Authentication authentication){
-        PostDto postDto = postService.create(dto,authentication.getName());
-        PostCreateResponse response = new PostCreateResponse(postDto.getId(),"포스트 등록 완료");
+    @PostMapping("/posts")
+    public Response<PostCreateResponse> create(@RequestBody PostCreateRequest dto, @ApiIgnore Authentication authentication) {
+        PostDto postDto = postService.create(dto, authentication.getName());
+        PostCreateResponse response = new PostCreateResponse(postDto.getId(), "포스트 등록 완료");
         return Response.success(response);
     }
+
+    @DeleteMapping("/posts/{postId}")
+    public Response<PostDeleteResponse> delete(@PathVariable Long postId, @ApiIgnore Authentication authentication) {
+        postService.delete(postId, authentication.getName());
+        return Response.success(new PostDeleteResponse(postId, "포스트 삭제 완료"));
+    }
+
 
 }

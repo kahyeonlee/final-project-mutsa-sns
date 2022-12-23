@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
-public class Post {
+public class Post{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
