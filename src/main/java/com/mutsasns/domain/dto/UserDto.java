@@ -1,6 +1,5 @@
 package com.mutsasns.domain.dto;
 
-import com.mutsasns.domain.User;
 import com.mutsasns.domain.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

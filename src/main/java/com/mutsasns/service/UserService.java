@@ -1,8 +1,6 @@
 package com.mutsasns.service;
 
-import com.mutsasns.configuration.EncoderConfig;
-import com.mutsasns.domain.User;
-import com.mutsasns.domain.UserRole;
+import com.mutsasns.domain.entity.User;
 import com.mutsasns.domain.dto.UserDto;
 import com.mutsasns.domain.dto.UserJoinRequest;
 import com.mutsasns.domain.dto.UserLoginRequest;
@@ -12,11 +10,8 @@ import com.mutsasns.repository.UserRepository;
 import com.mutsasns.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

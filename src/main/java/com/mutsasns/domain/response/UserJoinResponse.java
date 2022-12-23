@@ -1,4 +1,4 @@
-package com.mutsasns.domain.dto;
+package com.mutsasns.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
