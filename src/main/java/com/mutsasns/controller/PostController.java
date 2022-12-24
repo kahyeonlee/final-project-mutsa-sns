@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.security.core.Authentication;
 
-import javax.persistence.PostUpdate;
-
 
 @RestController
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
+<<<<<<< src/main/java/com/mutsasns/controller/PostController.java
     //게시물 등록
     @PostMapping
     public Response<PostCreateResponse> create(@RequestBody PostCreateRequest dto, @ApiIgnore Authentication authentication) {
@@ -37,6 +36,5 @@ public class PostController {
         PostModifyResponse response = new PostModifyResponse(post.getId(), "포스트 수정 완료");
         return Response.success(response);
     }
-
 
 }
