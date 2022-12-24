@@ -1,5 +1,6 @@
 package com.mutsasns.controller;
 
+import com.mutsasns.domain.response.PostDetailResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.domain.dto.PostCreateRequest;
 import com.mutsasns.domain.response.PostCreateResponse;
@@ -14,11 +15,6 @@ import org.springframework.security.core.Authentication;
 import com.mutsasns.domain.dto.*;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.response.*;
-import com.mutsasns.service.PostService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -45,4 +41,11 @@ public class PostController {
         PostModifyResponse response = new PostModifyResponse(post.getId(), "포스트 수정 완료");
         return Response.success(response);
     }
+    //게시물 1개 조회
+    @GetMapping("/{postId}")
+    public Response<PostDetailResponse> delete(@PathVariable Long postId) {
+        PostDto postDto = postService.detail(postId);
+        return Response.success(new PostDetailResponse(postDto.getId(), postDto.getTitle(), postDto.getBody(), postDto.getUserName(),postDto.getCreatedAt(),postDto.getLastModifiedAt()));
+    }
+
 }

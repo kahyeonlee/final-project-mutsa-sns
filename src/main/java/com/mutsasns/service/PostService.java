@@ -59,7 +59,7 @@ public class PostService {
     public Post modify(PostModifyRequest dto, Long postId, String userName){
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", userName)));
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", postId)));
 
         //userName 정보를 못찾을때 에러처리
         User user = userRepository.findByUserName(userName)
@@ -78,5 +78,11 @@ public class PostService {
         return savedPost;
     }
 
+    public PostDto detail(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", postId)));
+
+        return PostDto.fromEntity(post);
+    }
 }
 
