@@ -37,6 +37,4 @@ public class PostController {
         PostModifyResponse response = new PostModifyResponse(post.getId(), "포스트 수정 완료");
         return Response.success(response);
     }
-
-
 }

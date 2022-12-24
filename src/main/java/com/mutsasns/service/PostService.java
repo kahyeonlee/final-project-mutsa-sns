@@ -3,7 +3,6 @@ package com.mutsasns.service;
 import com.mutsasns.domain.dto.*;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.entity.User;
-import com.mutsasns.domain.response.PostDetailResponse;
 import com.mutsasns.exception.AppException;
 import com.mutsasns.exception.ErrorCode;
 import com.mutsasns.repository.PostRepository;
