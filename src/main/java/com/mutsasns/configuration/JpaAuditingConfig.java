@@ -1,13 +1,12 @@
 package com.mutsasns.configuration;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@Configuration
 @EnableJpaAuditing
-@SpringBootApplication
-public class DateApplication {
-
-    public static void main(String[] args) {
-    }
+public class JpaAuditingConfig {
 
 }
+
