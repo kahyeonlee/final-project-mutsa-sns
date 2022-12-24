@@ -14,6 +14,7 @@ public enum ErrorCode {
 
     POST_NOT_FOUND(HttpStatus.NOT_FOUND,"게시글을 찾을 수 없습니다."),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED,"권한이 허용되지 않았습니다.");
+    
     private HttpStatus httpStatus;
     private String message;
 }
