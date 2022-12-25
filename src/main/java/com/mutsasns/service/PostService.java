@@ -10,6 +10,8 @@ import com.mutsasns.exception.ErrorCode;
 import com.mutsasns.repository.PostRepository;
 import com.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,5 +86,12 @@ public class PostService {
 
         return PostDto.fromEntity(post);
     }
+
+    public Page<PostDto> pageList(Pageable pageable){
+        Page<Post>  post = postRepository.findAll(pageable);
+        Page<PostDto> postDto = PostDto.toDto(post);
+        return postDto;
+    }
+
 }
 

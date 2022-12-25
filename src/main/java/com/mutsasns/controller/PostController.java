@@ -7,6 +7,10 @@ import com.mutsasns.domain.response.PostCreateResponse;
 import com.mutsasns.domain.dto.PostDto;
 import com.mutsasns.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import org.springframework.security.core.Authentication;
@@ -15,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import com.mutsasns.domain.dto.*;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.response.*;
+
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -47,5 +52,10 @@ public class PostController {
         PostDto postDto = postService.detail(postId);
         return Response.success(new PostDetailResponse(postDto.getId(), postDto.getTitle(), postDto.getBody(), postDto.getUserName(),postDto.getCreatedAt(),postDto.getLastModifiedAt()));
     }
-
+    //게시물 리스트
+    @GetMapping
+    public Response<Page<PostDto>> pageable(@PageableDefault(sort = "createdAt",size = 20,direction = Sort.Direction.DESC) Pageable pageable){
+        Page<PostDto> postDto = postService.pageList(pageable);
+        return Response.success(postDto);
+    }
 }
