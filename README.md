@@ -30,8 +30,161 @@
 
 ### 💡 EndPoint
 ***
-#### **1. api/v1/users/join**
-#### **2. api/v1/users/login**
+#### **1. 회원가입 - POST /api/v1/users/join**
+- 입력
+```json
+  "password": "1234",
+  "userName": "gh"
+```
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "id": 9,
+    "userName": "gh"
+  }
+}
 
+```
+#### **2. 로그인 - POST /api/v1/users/login**
+- 입력
+```json
+  "password": "1234",
+  "userName": "gh"
+```
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6ImdoIiwiaWF0IjoxNjcyMDE3MjM4LCJleHAiOjE2NzIwMzUyMzh9.PcSlsqu0jNvf67laXgD9WdK0Gv0NMWAy18tfNkr5DTE"
+  }
+}
+```
+#### **3. 포스트 작성 - POST /api/v1/posts**
+- 입력
+```json
+{
+  "body": "hi. it's me",
+  "title": "hi"
+}
+```
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "postId": 18,
+    "message": "포스트 등록 완료"
+  }
+}
+```
+#### **4. 포스트 수정 - PUT /api/v1/posts/{id}**
+- 입력 (매개변수로 postId)
+```json
+{
+  "body": "hello. it's me",
+  "title": "hello"
+}
+```
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "postId": 18,
+    "message": "포스트 수정 완료"
+  }
+}
+```
+#### **5. 포스트 삭제 - DELETE /api/v1/posts/{postId}**
+- 입력(매개변수로 postID)
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "postId": 18,
+    "message": "포스트 삭제 완료"
+  }
+}
+```
+#### **6. 포스트 1개 조회(상세) - GET /api/v1/posts/{postId}**
+- 입력(매개변수로 postID)
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "id": 18,
+    "title": "hello",
+    "body": "hello. it's me",
+    "userName": "gh",
+    "createdAt": "2022-12-26T10:17:37.933636",
+    "lastModifiedAt": "2022-12-26T10:19:24.281174"
+  }
+}
+```
+#### **7. 포스트 리스트 조회 - GET /api/v1/posts**
+- 결과
+```json
+{
+  "resultCode": "SUCCESS",
+  "result": {
+    "content": [
+      {
+        "id": 18,
+        "title": "hello",
+        "body": "hello. it's me",
+        "userName": "gh",
+        "createdAt": "2022-12-26 10:17:37",
+        "lastModifiedAt": "2022-12-26 10:19:24"
+      },
+      {
+        "id": 17,
+        "title": "hi",
+        "body": "hi. it's me",
+        "userName": "gh",
+        "createdAt": "2022-12-26 10:17:36",
+        "lastModifiedAt": "2022-12-26 10:17:36"
+      },
+      {
+        "id": 16,
+        "title": "hello-title",
+        "body": "hello-body",
+        "userName": "kyeongrok27",
+        "createdAt": "2022-12-26 00:54:53",
+        "lastModifiedAt": "2022-12-26 00:54:53"
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "empty": false,
+        "sorted": true,
+        "unsorted": false
+      },
+      "offset": 0,
+      "pageNumber": 0,
+      "pageSize": 20,
+      "paged": true,
+      "unpaged": false
+    },
+    "last": true,
+    "totalElements": 15,
+    "totalPages": 1,
+    "size": 20,
+    "number": 0,
+    "sort": {
+      "empty": false,
+      "sorted": true,
+      "unsorted": false
+    },
+    "first": true,
+    "numberOfElements": 15,
+    "empty": false
+  }
+}
+```
 ### 📉 ERD Diagram
 ***
