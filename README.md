@@ -1,12 +1,20 @@
-# 💬 Mutsa - SNS
+<div align="center">
+<h1>💬 Mutsa - SNS</h1>
+</div>
+
+
+
+
 ### 📌체크리스트
-- [ ] 인증/인가 필터구현
-- [ ] 게시물 등록, 수정, 삭제, 상세, 리스트
-- [ ] swagger 이용
-- [ ] AWS EC2에 Docker 배포
-- [ ] Gitlab CI & Crontab CD
+****
+- [x] 인증/인가 필터구현
+- [x] 게시물 등록, 수정, 삭제, 상세, 리스트
+- [x] swagger 이용
+- [x] AWS EC2에 Docker 배포
+- [x] Gitlab CI & Crontab CD
 
 ### 🎁 미션
+***
 - 혼자하는 개인 프로젝트에서 test 코드를 작성하는데 노력했고 기능 구현하는 것을 중점적으로 생각하면서 작업했습니다.
 - Ui 만들어 보고 싶었는데 못만들어서 휴일기간을 통해서 만들어보도록 하겠습니다
 ### 💻 개발환경
