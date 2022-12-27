@@ -34,10 +34,10 @@ public class PostController {
         return Response.success(response);
     }
     //게시물 삭제
-    @DeleteMapping("/{postId}")
-    public Response<PostDeleteResponse> delete(@PathVariable Long postId, @ApiIgnore Authentication authentication) {
-        postService.delete(postId, authentication.getName());
-        return Response.success(new PostDeleteResponse("포스트 삭제 완료",postId));
+    @DeleteMapping("/{id}")
+    public Response<PostDeleteResponse> delete(@PathVariable Long id, @ApiIgnore Authentication authentication) {
+        postService.delete(id, authentication.getName());
+        return Response.success(new PostDeleteResponse("포스트 삭제 완료",id));
     }
     //게시물 수정
     @PutMapping("/{id}")
@@ -47,9 +47,9 @@ public class PostController {
         return Response.success(response);
     }
     //게시물 1개 조회
-    @GetMapping("/{postId}")
-    public Response<PostDetailResponse> delete(@PathVariable Long postId) {
-        PostDto postDto = postService.detail(postId);
+    @GetMapping("/{id}")
+    public Response<PostDetailResponse> delete(@PathVariable Long id) {
+        PostDto postDto = postService.detail(id);
         return Response.success(new PostDetailResponse(postDto.getId(), postDto.getTitle(), postDto.getBody(), postDto.getUserName(),postDto.getCreatedAt(),postDto.getLastModifiedAt()));
     }
     //게시물 리스트
