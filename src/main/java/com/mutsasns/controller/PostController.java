@@ -48,7 +48,7 @@ public class PostController {
     }
     //게시물 1개 조회
     @GetMapping("/{id}")
-    public Response<PostDetailResponse> delete(@PathVariable Long id) {
+    public Response<PostDetailResponse> detail(@PathVariable Long id) {
         PostDto postDto = postService.detail(id);
         return Response.success(new PostDetailResponse(postDto.getId(), postDto.getTitle(), postDto.getBody(), postDto.getUserName(),postDto.getCreatedAt(),postDto.getLastModifiedAt()));
     }
