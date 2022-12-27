@@ -48,14 +48,14 @@ public class PostService {
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
 
         //userName이 일치하지 않을때 에러 처리
-        if (!Objects.equals(user.getUserName(),userName)) {
+        if (!Objects.equals(post.getUser().getUserName(),userName)){
             throw new AppException(ErrorCode.INVALID_PERMISSION,String.format("%s invaild permission", userName));
         }
-
         //삭제
         postRepository.delete(post);
 
         return true;
+
     }
     @Transactional
     public Post modify(PostModifyRequest dto, Long postId, String userName){
@@ -68,7 +68,7 @@ public class PostService {
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
 
         //userName이 일치하지 않을때 에러 처리
-        if (!Objects.equals(user.getUserName(),userName)) {
+        if (!Objects.equals(post.getUser().getUserName(),userName)){
             throw new AppException(ErrorCode.INVALID_PERMISSION,String.format("%s invaild permission", userName));
         }
 
