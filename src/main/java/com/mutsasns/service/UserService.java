@@ -22,7 +22,7 @@ public class UserService {
 
     @Value("${jwt.token.secret}")
     private String key;
-    private Long expireTimeMs= 1000*60*60l;
+    private Long expireTimeMs= 1000*60*300l;
 
     public UserDto join(UserJoinRequest dto) {
 

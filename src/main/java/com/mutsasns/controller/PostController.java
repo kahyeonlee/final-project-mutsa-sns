@@ -30,20 +30,20 @@ public class PostController {
     @PostMapping
     public Response<PostCreateResponse> create(@RequestBody PostCreateRequest dto, @ApiIgnore Authentication authentication) {
         PostDto postDto = postService.create(dto, authentication.getName());
-        PostCreateResponse response = new PostCreateResponse(postDto.getId(), "포스트 등록 완료");
+        PostCreateResponse response = new PostCreateResponse("포스트 등록 완료",postDto.getId());
         return Response.success(response);
     }
     //게시물 삭제
     @DeleteMapping("/{postId}")
     public Response<PostDeleteResponse> delete(@PathVariable Long postId, @ApiIgnore Authentication authentication) {
         postService.delete(postId, authentication.getName());
-        return Response.success(new PostDeleteResponse(postId, "포스트 삭제 완료"));
+        return Response.success(new PostDeleteResponse("포스트 삭제 완료",postId));
     }
     //게시물 수정
     @PutMapping("/{id}")
     public Response<PostModifyResponse> create(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
         Post post = postService.modify(dto,postId, authentication.getName());
-        PostModifyResponse response = new PostModifyResponse(post.getId(), "포스트 수정 완료");
+        PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",post.getId());
         return Response.success(response);
     }
     //게시물 1개 조회
