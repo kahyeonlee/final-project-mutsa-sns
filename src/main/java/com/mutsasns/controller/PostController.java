@@ -41,7 +41,7 @@ public class PostController {
     }
     //게시물 수정
     @PutMapping("/{id}")
-    public Response<PostModifyResponse> create(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
+    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
         Post post = postService.modify(dto,postId, authentication.getName());
         PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",post.getId());
         return Response.success(response);
