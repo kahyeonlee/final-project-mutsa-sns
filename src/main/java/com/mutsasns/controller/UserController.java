@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
-//http://ec2-54-180-117-39.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/
+//http://ec2-3-34-99-55.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/
 
 
 @RestController
