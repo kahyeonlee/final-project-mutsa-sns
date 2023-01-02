@@ -9,7 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
-//http://ec2-3-34-99-55.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/
+//http://ec2-13-124-191-48.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/
+//http://localhost:8080/swagger-ui/#/
 
 
 @RestController
@@ -21,15 +22,11 @@ public class UserController {
 
     @PostMapping("/join")
     public Response<UserJoinResponse> join(@RequestBody UserJoinRequest dto){
-        UserDto userDto = userService.join(dto);
-        UserJoinResponse response = new UserJoinResponse(userDto.getId(),userDto.getUserName());
-        return Response.success(response);
+        return Response.success(userService.join(dto));
     }
 
     @PostMapping("/login")
     public Response<UserLoginResponse> login(@RequestBody UserLoginRequest dto){
-        String token = userService.login(dto);
-        UserLoginResponse response = new UserLoginResponse(token);
-        return Response.success(response);
+        return Response.success(userService.login(dto));
     }
 }
