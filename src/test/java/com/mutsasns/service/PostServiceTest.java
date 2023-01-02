@@ -65,7 +65,7 @@ public class PostServiceTest {
         String userName = "kahyun";
 
         when(userRepository.findByUserName(userName))
-                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,""));
+                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
         AppException exception = Assertions.assertThrows(AppException.class, () -> postService.create(postCreateRequest,userName));
@@ -84,7 +84,7 @@ public class PostServiceTest {
         String userName = "kahyun";
 
         when(postRepository.findById(postId))
-                .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND,""));
+                .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         //애러가 발생하면 true
         Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
@@ -106,7 +106,7 @@ public class PostServiceTest {
                 .build();
 
         when(userRepository.findByUserName(userName))
-                .thenThrow(new AppException(ErrorCode.INVALID_PERMISSION,""));
+                .thenThrow(new AppException(ErrorCode.INVALID_PERMISSION));
 
         //애러가 발생하면 true
         Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
@@ -124,7 +124,7 @@ public class PostServiceTest {
         String userName = "kahyun";
 
         when(userRepository.findByUserName(userName))
-                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,""));
+                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
         Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
@@ -137,7 +137,7 @@ public class PostServiceTest {
         String userName = "kahyun";
 
         when(userRepository.findByUserName(userName))
-                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,""));
+                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
         Assertions.assertThrows(AppException.class, () -> postService.delete(postId,userName));
@@ -150,7 +150,7 @@ public class PostServiceTest {
         String userName = "kahyun";
 
         when(postRepository.findById(postId))
-                .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND,""));
+                .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         //애러가 발생하면 true
         Assertions.assertThrows(AppException.class, () -> postService.delete(postId,userName));

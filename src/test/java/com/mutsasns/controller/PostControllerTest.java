@@ -72,7 +72,7 @@ class PostControllerTest {
                 .body("it's me")
                 .build();
 
-        when(postService.create(any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION,""));
+        when(postService.create(any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION));
 
         mockMvc.perform(post("/api/v1/posts")
                         .with(csrf())
@@ -103,7 +103,7 @@ class PostControllerTest {
     @DisplayName("포스트 삭제 실패 - 인증 실패")
     @WithAnonymousUser
     void delete_fail() throws Exception {
-        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION,""));
+        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION));
 
         mockMvc.perform(delete("/api/v1/posts/1")
                         .with(csrf())
@@ -117,7 +117,7 @@ class PostControllerTest {
     @WithMockUser
     void delete_fail2() throws Exception {
 
-        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,""));
+        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         mockMvc.perform(delete("/api/v1/posts/1")
                         .with(csrf())
@@ -131,7 +131,7 @@ class PostControllerTest {
     @DisplayName("포스트 삭제 실패 - 데이터베이스 에러(게시글 못찾을때)")
     @WithMockUser
     void delete_fail3() throws Exception {
-        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.POST_NOT_FOUND,""));
+        when(postService.delete(any(),any())).thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         mockMvc.perform(delete("/api/v1/posts/1")
                         .with(csrf())
@@ -173,7 +173,7 @@ class PostControllerTest {
                 .body("it's me")
                 .build();
 
-        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION,""));
+        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.INVALID_PERMISSION));
 
         mockMvc.perform(put("/api/v1/posts/1")
                         .with(csrf())
@@ -194,7 +194,7 @@ class PostControllerTest {
                 .build();
 
 
-        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,""));
+        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         mockMvc.perform(put("/api/v1/posts/1")
                         .with(csrf())
@@ -215,7 +215,7 @@ class PostControllerTest {
                 .body("it's me")
                 .build();
 
-        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.POST_NOT_FOUND,""));
+        when(postService.modify(any(),any(),any())).thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         mockMvc.perform(put("/api/v1/posts/1")
                         .with(csrf())

@@ -1,9 +1,10 @@
 package com.mutsasns.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mutsasns.domain.dto.UserDto;
 import com.mutsasns.domain.dto.UserJoinRequest;
 import com.mutsasns.domain.dto.UserLoginRequest;
+import com.mutsasns.domain.response.UserJoinResponse;
+import com.mutsasns.domain.response.UserLoginResponse;
 import com.mutsasns.exception.AppException;
 import com.mutsasns.exception.ErrorCode;
 import com.mutsasns.service.UserService;
@@ -17,7 +18,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,18 +36,21 @@ class UserControllerTest {
 
     @MockBean
     UserService userService;
+    UserJoinRequest userJoinRequest = UserJoinRequest.builder()
+            .userName("mockUserName")
+            .password("mockPassword")
+            .build();
 
-
+    UserLoginRequest userLoginRequest = UserLoginRequest.builder()
+            .userName("mockUserName")
+            .password("mockPassword")
+            .build();
     @Test
     @DisplayName("회원가입 성공")
     @WithMockUser
     void join_success() throws Exception {
-        UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-                .userName("hi")
-                .password("1234")
-                .build();
 
-        when(userService.join(any())).thenReturn(mock(UserDto.class));
+        when(userService.join(any())).thenReturn(new UserJoinResponse(1l, userJoinRequest.getUserName()));
 
         mockMvc.perform(post("/api/v1/users/join")
                         .with(csrf())
@@ -62,14 +65,8 @@ class UserControllerTest {
     @WithMockUser
     void join_fail() throws Exception {
 
-        UserJoinRequest userJoinRequest = UserJoinRequest.builder()
-                .userName("hi")
-                .password("1234")
-                .build();
-
-
         when(userService.join(any()))
-                .thenThrow(new AppException(ErrorCode.USERNAME_DUPLICATION,"userName이 중복됩니다."));
+                .thenThrow(new AppException(ErrorCode.USERNAME_DUPLICATION));
 
         mockMvc.perform(post("/api/v1/users/join")
                         .with(csrf())
@@ -83,12 +80,9 @@ class UserControllerTest {
     @DisplayName("로그인 성공")
     @WithMockUser
     void login_success() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("hi")
-                .password("1234")
-                .build();
+        String token = "mockToken";
 
-        when(userService.login(any())).thenReturn("token");
+        when(userService.login(any())).thenReturn(new UserLoginResponse(token));
 
         mockMvc.perform(post("/api/v1/users/login")
                         .with(csrf())
@@ -98,22 +92,15 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.resultCode").exists())
                 .andExpect(jsonPath("$.result.jwt").exists());
-
-
     }
 
     @Test
     @DisplayName("로그인 실패 - userName 없음")
     @WithMockUser
     void login_fail_USERNAME_NOTFOUND() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("hi")
-                .password("1234")
-                .build();
-
 
         when(userService.login(any()))
-                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND,"등록된 userName이 없습니다."));
+                .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         mockMvc.perform(post("/api/v1/users/login")
                         .with(csrf())
@@ -128,14 +115,9 @@ class UserControllerTest {
     @DisplayName("로그인 실패 - password 틀림")
     @WithMockUser
     void login_fail_INVAILD_PASSWORD() throws Exception {
-        UserLoginRequest userLoginRequest = UserLoginRequest.builder()
-                .userName("hi")
-                .password("1234")
-                .build();
-
 
         when(userService.login(any()))
-                .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD,"비밀번호가 일치하지않습니다."));
+                .thenThrow(new AppException(ErrorCode.INVALID_PASSWORD));
 
         mockMvc.perform(post("/api/v1/users/login")
                         .with(csrf())

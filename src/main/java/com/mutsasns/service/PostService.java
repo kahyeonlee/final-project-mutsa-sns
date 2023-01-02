@@ -26,7 +26,7 @@ public class PostService {
     public PostDto create(PostCreateRequest dto,String userName) {
         //userName 못찾을때 에러
         User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //저장
         Post savedPost = postRepository.save(Post.of(dto.getTitle(),dto.getBody(),user));
@@ -37,19 +37,19 @@ public class PostService {
                 .body(savedPost.getBody())
                 .build();
     }
-
+    @Transactional
     public boolean delete(Long postId, String userName) {
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded",postId)));
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
 
         //userName 정보를 못찾을때 에러처리
         User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //userName이 일치하지 않을때 에러 처리
         if (!Objects.equals(post.getUser().getUserName(),userName)){
-            throw new AppException(ErrorCode.INVALID_PERMISSION,String.format("%s invaild permission", userName));
+            throw new AppException(ErrorCode.INVALID_PERMISSION);
         }
         //삭제
         postRepository.delete(post);
@@ -61,15 +61,15 @@ public class PostService {
     public Post modify(PostModifyRequest dto, Long postId, String userName){
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", postId)));
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
 
         //userName 정보를 못찾을때 에러처리
         User user = userRepository.findByUserName(userName)
-                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND, String.format("%s not founded", userName)));
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //userName이 일치하지 않을때 에러 처리
         if (!Objects.equals(post.getUser().getUserName(),userName)){
-            throw new AppException(ErrorCode.INVALID_PERMISSION,String.format("%s invaild permission", userName));
+            throw new AppException(ErrorCode.INVALID_PERMISSION);
         }
 
         //수정
@@ -82,7 +82,7 @@ public class PostService {
 
     public PostDto detail(Long postId) {
         Post post = postRepository.findById(postId)
-                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND, String.format("%s not founded", postId)));
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
 
         return PostDto.fromEntity(post);
     }
