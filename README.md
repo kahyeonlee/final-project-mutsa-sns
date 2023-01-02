@@ -1,53 +1,70 @@
 <div align="center">
-<h1>💬 Mutsa - SNS</h1>
+<h1> <a href="https://antique-almandine-653.notion.site/Mutsa-SNS-eed83a8aef6c4f20b26b76ed4a3b6e8b"> Mutsa - SNS 💬</a></h1>
 </div>
 
-
-
+### 🎁 프로젝트를 진행하면서 느낀 점
+*** 
+- 프로젝트에서 `Test 코드 작성`을 연습,적용하려고 노력하였고 회원 인증, 인가 기능에 Admin 기능을 추가할때 테스트 코드를 돌려보면서  `unit 테스트`를 할 수 있어서 swagger에서 테스트하는 실행 시간을 줄일 수 있다 
+- GitLab을 통해서 `CI/CD를 적용`하여 프로젝트를 진행했습니다. `배포 스크립트`를 만들고 적용하는데 어려움을 겪긴 했지만  수정사항이 생길때마다 배포 작업을 안해도 되서 반복 작업을 업앨  수 있었습니다.
+- `보완해야 할 점`
+  1. log 찍어서 확인하는 습관
+  2. 주석 처리(팀 프로젝트 진행시 코드 설명)
 
 ### 📌체크리스트
 ****
-- [x] 인증/인가 필터구현
-- [x] 게시물 등록, 수정, 삭제, 상세, 리스트
-- [x] swagger 이용
-- [x] AWS EC2에 Docker 배포
-- [x] Gitlab CI & Crontab CD
+#### ✅ AWS EC2에 Docker 배포
+1. [x] AWS EC2 t3.small 인스턴스 생성
+2. [x] 인스턴스에 Docker 설치
+#### ✅ [Gitlab CI & Crontab CD](https://velog.io/@gmeoq/series/GitLAb)
+1. [x] GitLab에 새 프로젝트 만들기
+2. [x] Dockerfile 생성
+3. [x] 파이프라인 생성
+4. [x] Docker에 pull,run
+5. [x] 배포 스크립트 만들기
+6. [x] Crontab 사용
+#### ✅ [Swagger 이용](https://velog.io/@gmeoq/SpringBoot-Swagger-%EC%A0%81%EC%9A%A9)
+1. [x] Swagger 의존성 추가
+2. [x] SwaggerConfiguration 생성
+####  ✅ 인증/인가 필터
 
-### 🎁 미션
-***
-- 혼자하는 개인 프로젝트에서 test 코드를 작성하는데 노력했고 기능 구현하는 것을 중점적으로 생각하면서 작업했습니다.
-- Ui 만들어 보고 싶었는데 못만들어서 휴일기간을 통해서 만들어보도록 하겠습니다
+####  ✅ 게시물 등록, 수정, 삭제, 상세, 리스트
+
 ### 💻 개발환경
 ***
-- 에디터 : Intellij Ultimate
-- 개발 툴 : SpringBoot 2.7.5
-- 자바 : JAVA 11
-- 빌드 : Gradle 6.8
-- 서버 : AWS EC2
-- 배포 : Docker
-- 데이터베이스 : MySql 8.0
-- 필수 라이브러리 : SpringBoot Web, MySQL, Spring Data JPA, Lombok, Spring Security
+- **에디터** : Intellij Ultimate
+- **개발 툴** : SpringBoot 2.7.5
+- **자바** : JAVA 11
+- **빌드** : Gradle 6.8
+- **서버** : AWS EC2
+- **배포** : Docker
+- **데이터베이스** : MySql 8.0
+- **필수 라이브러리** : SpringBoot Web, MySQL, Spring Data JPA, Lombok, Spring Security
 
-
-### 📋 기능정의
+### 📉 ERD Diagram
 ***
-#### **1. 회원 인증,인가**
-    - 모든 회원은 회원가입을 통해 회원이 됩니다.
-    - 로그인을 하지 않으면 SNS 기능 중 피드를 보는 기능만 가능합니다.
-    - 로그인한 회원은 글쓰기, 수정, 댓글, 좋아요, 알림 기능이 가능합니다.
+![img_2.png](img_2.png)
 
-#### **2. post**
 
-    - 포스트를 쓰려면 회원가입 후 로그인(Token받기)을 해야 합니다.
-    - 포스트의 길이는 총 300자 이상을 넘을 수 없습니다.
-    - 포스트의 한 페이지는 20개씩 보이고 총 몇 개의 페이지인지 표시가 됩니다.
-    - 로그인 하지 않아도 글 목록을 조회 할 수 있습니다.
-    - 수정 기능은 글을 쓴 회원만이 권한을 가집니다.
-    - 포스트의 삭제 기능은 글을 쓴 회원만이 권한을 가집니다.
-
-### 💡 EndPoint - [Swagger](http://ec2-3-34-99-55.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/)
+### 📋 요구 사항 정의서
 ***
+![img_1.png](img_1.png)
+
+
+
+### 💡 EndPoint - [Swagger](http://ec2-3-34-178-92.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/)
+***
+
+| **no** | **구분** | **기능** | **Method** | **URI** |
+| --- | --- | --- | --- | --- |
+| 1 | 회원 | 회원가입 | POST  | /api/v1/users/join |
+| 2 |  | 로그인 | POST  | /api/v1/users/login |
+| 3 | 포스트 | 게시물 등록 | POST  | /api/v1/posts |
+| 4 |  | 게시물 삭제 | DELETE | /api/v1/posts/{id} |
+| 5 |  | 게시물 수정 | PUT | /api/v1/posts/{id} |
+| 6 |  | 게시물 1개 조회 | GET | /api/v1/posts/{id} |
+| 7 |  | 게시물 목록 조회 | GET |  /api/v1/posts |
 #### **1. 회원가입 - POST /api/v1/users/join**
+
 - 입력
 ```json
   "password": "1234",
@@ -203,8 +220,3 @@
   }
 }
 ```
-### 📉 ERD Diagram
-***
-![img.png](img.png)
-
-
