@@ -52,7 +52,7 @@ public class PostServiceTest {
                 .thenReturn(mockPost);
 
         //애러가 발생하지 않으면 true
-        Assertions.assertDoesNotThrow(() -> postService.create(postCreateRequest,userName));
+        Assertions.assertDoesNotThrow(() -> postService.createPost(postCreateRequest,userName));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
-        AppException exception = Assertions.assertThrows(AppException.class, () -> postService.create(postCreateRequest,userName));
+        AppException exception = Assertions.assertThrows(AppException.class, () -> postService.createPost(postCreateRequest,userName));
         assertEquals(ErrorCode.USERNAME_NOT_FOUND, exception.getErrorCode());
 
     }
@@ -87,7 +87,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         //애러가 발생하면 true
-        Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
+        Assertions.assertThrows(AppException.class, () -> postService.modifyPost(postModifyRequest,postId,userName));
 
     }
 
@@ -109,7 +109,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.INVALID_PERMISSION));
 
         //애러가 발생하면 true
-        Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
+        Assertions.assertThrows(AppException.class, () -> postService.modifyPost(postModifyRequest,postId,userName));
 
     }
 
@@ -127,7 +127,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
-        Assertions.assertThrows(AppException.class, () -> postService.modify(postModifyRequest,postId,userName));
+        Assertions.assertThrows(AppException.class, () -> postService.modifyPost(postModifyRequest,postId,userName));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //애러가 발생하면 true
-        Assertions.assertThrows(AppException.class, () -> postService.delete(postId,userName));
+        Assertions.assertThrows(AppException.class, () -> postService.deletePost(postId,userName));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class PostServiceTest {
                 .thenThrow(new AppException(ErrorCode.POST_NOT_FOUND));
 
         //애러가 발생하면 true
-        Assertions.assertThrows(AppException.class, () -> postService.delete(postId,userName));
+        Assertions.assertThrows(AppException.class, () -> postService.deletePost(postId,userName));
     }
 
     @Test
@@ -170,7 +170,7 @@ public class PostServiceTest {
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
 
         //애러가 발생하지 않으면 true
-        Assertions.assertDoesNotThrow(() -> postService.detail(postId));
+        Assertions.assertDoesNotThrow(() -> postService.detailPost(postId));
     }
 
 }
