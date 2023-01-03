@@ -1,5 +1,6 @@
 package com.mutsasns.controller;
 
+import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.response.PostDetailResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.domain.dto.PostCreateRequest;
@@ -45,13 +46,14 @@ public class PostController {
         return Response.success(new PostDeleteResponse("포스트 삭제 완료",id));
     }
     //게시물 수정
+    //게시물 수정
     @PutMapping("/{id}")
-    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,@PathVariable Long id, @ApiIgnore Authentication authentication) {
-        postService.modifyPost(dto,id, authentication.getName());
-        log.info("포스트 수정 성공");
-        PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",id);
+    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
+        Post post = postService.modifyPost(dto,postId, authentication.getName());
+        PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",post.getId());
         return Response.success(response);
     }
+
     //게시물 1개 조회
     @GetMapping("/{id}")
     public Response<PostDetailResponse> detail(@PathVariable Long id) {

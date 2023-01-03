@@ -1,9 +1,7 @@
 package com.mutsasns.controller;
 
 import com.mutsasns.domain.dto.CommentCreateRequest;
-import com.mutsasns.domain.dto.CommentDto;
 import com.mutsasns.domain.response.CommentCreateResponse;
-import com.mutsasns.domain.response.PostCreateResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.service.CommentService;
 import lombok.RequiredArgsConstructor;

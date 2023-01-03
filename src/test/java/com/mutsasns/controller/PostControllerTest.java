@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -164,7 +163,7 @@ class PostControllerTest {
                     .body("it's me")
                     .build();
 
-            when(postService.modifyPost(any(),any(), any())).thenReturn(true);
+            when(postService.modifyPost(any(),any(), any())).thenReturn(mock(Post.class));
 
             mockMvc.perform(put("/api/v1/posts/1")
                             .with(csrf())

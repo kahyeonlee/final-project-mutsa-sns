@@ -68,7 +68,7 @@ public class PostService {
     }
     //포스트 수정
     @Transactional
-    public boolean modifyPost(PostModifyRequest dto, Long postId, String userName){
+    public Post modifyPost(PostModifyRequest dto, Long postId, String userName){
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
@@ -83,10 +83,11 @@ public class PostService {
         }
 
         //수정
-        post.modify(dto.getTitle(),dto.getBody());
-        postRepository.save(post);
+        post.setTitle(dto.getTitle());
+        post.setBody(dto.getBody());
+        Post savedPost = postRepository.save(post);
 
-        return true;
+        return savedPost;
     }
 
     //포스트 상세
