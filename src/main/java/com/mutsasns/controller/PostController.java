@@ -7,6 +7,7 @@ import com.mutsasns.domain.response.PostCreateResponse;
 import com.mutsasns.domain.dto.PostDto;
 import com.mutsasns.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,39 +18,45 @@ import org.springframework.security.core.Authentication;
 
 
 import com.mutsasns.domain.dto.*;
-import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.response.*;
 
+//http://ec2-13-124-191-48.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/
+//http://localhost:8080/swagger-ui/#/
 
 @RestController
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
     private final PostService postService;
     //게시물 등록
     @PostMapping
     public Response<PostCreateResponse> create(@RequestBody PostCreateRequest dto, @ApiIgnore Authentication authentication) {
-        PostDto postDto = postService.create(dto, authentication.getName());
+        PostDto postDto = postService.createPost(dto, authentication.getName());
+        log.info("포스트 등록 성공");
         PostCreateResponse response = new PostCreateResponse("포스트 등록 완료",postDto.getId());
         return Response.success(response);
     }
     //게시물 삭제
     @DeleteMapping("/{id}")
     public Response<PostDeleteResponse> delete(@PathVariable Long id, @ApiIgnore Authentication authentication) {
-        postService.delete(id, authentication.getName());
+        postService.deletePost(id, authentication.getName());
+        log.info("포스트 삭제 성공");
         return Response.success(new PostDeleteResponse("포스트 삭제 완료",id));
     }
     //게시물 수정
     @PutMapping("/{id}")
-    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
-        Post post = postService.modify(dto,postId, authentication.getName());
-        PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",post.getId());
+    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,@PathVariable Long id, @ApiIgnore Authentication authentication) {
+        postService.modifyPost(dto,id, authentication.getName());
+        log.info("포스트 수정 성공");
+        PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",id);
         return Response.success(response);
     }
     //게시물 1개 조회
     @GetMapping("/{id}")
     public Response<PostDetailResponse> detail(@PathVariable Long id) {
-        PostDto postDto = postService.detail(id);
+        PostDto postDto = postService.detailPost(id);
+        log.info("포스트 조회 성공");
         return Response.success(new PostDetailResponse(postDto.getId(), postDto.getTitle(), postDto.getBody(), postDto.getUserName(),postDto.getCreatedAt(),postDto.getLastModifiedAt()));
     }
     //게시물 리스트

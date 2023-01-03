@@ -23,13 +23,20 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public PostDto create(PostCreateRequest dto,String userName) {
+    //포스트 작성
+    public PostDto createPost(PostCreateRequest dto,String userName) {
         //userName 못찾을때 에러
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND));
 
         //저장
-        Post savedPost = postRepository.save(Post.of(dto.getTitle(),dto.getBody(),user));
+        Post post = Post.builder()
+                .title(dto.getTitle())
+                .body(dto.getBody())
+                .user(user)
+                .build();
+
+        Post savedPost = postRepository.save(post);
 
         return PostDto.builder()
                 .id(savedPost.getId())
@@ -37,8 +44,10 @@ public class PostService {
                 .body(savedPost.getBody())
                 .build();
     }
+
+    //포스트 삭제
     @Transactional
-    public boolean delete(Long postId, String userName) {
+    public boolean deletePost(Long postId, String userName) {
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
@@ -57,8 +66,9 @@ public class PostService {
         return true;
 
     }
+    //포스트 수정
     @Transactional
-    public Post modify(PostModifyRequest dto, Long postId, String userName){
+    public boolean modifyPost(PostModifyRequest dto, Long postId, String userName){
         //postId 없을때 에러 처리
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
@@ -73,20 +83,21 @@ public class PostService {
         }
 
         //수정
-        post.setTitle(dto.getTitle());
-        post.setBody(dto.getBody());
-        Post savedPost = postRepository.save(post);
+        post.modify(dto.getTitle(),dto.getBody());
+        postRepository.save(post);
 
-        return savedPost;
+        return true;
     }
 
-    public PostDto detail(Long postId) {
+    //포스트 상세
+    public PostDto detailPost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
 
         return PostDto.fromEntity(post);
     }
 
+    //포스트 목록 조뢰
     public Page<PostDto> pageList(Pageable pageable){
         Page<Post>  post = postRepository.findAll(pageable);
         Page<PostDto> postDto = PostDto.toDto(post);

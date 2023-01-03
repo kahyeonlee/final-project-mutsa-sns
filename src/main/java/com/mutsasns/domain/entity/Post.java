@@ -24,13 +24,9 @@ public class Post extends BaseEntity{
     @Column(length = 300)
     private String body;
 
-
-    public static Post of(String title, String body, User user) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setBody(body);
-        post.setUser(user);
-        return post;
+    public void modify(String modifyTitle,String modifyBody){
+        this.title = modifyTitle;
+        this.body = modifyBody;
     }
 
 }
