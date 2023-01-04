@@ -45,11 +45,11 @@ public class PostController {
         log.info("포스트 삭제 성공");
         return Response.success(new PostDeleteResponse("포스트 삭제 완료",id));
     }
-    //게시물 수정
+
     //게시물 수정
     @PutMapping("/{id}")
-    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,Long postId, @ApiIgnore Authentication authentication) {
-        Post post = postService.modifyPost(dto,postId, authentication.getName());
+    public Response<PostModifyResponse> modify(@RequestBody PostModifyRequest dto,@PathVariable Long id, @ApiIgnore Authentication authentication) {
+        Post post = postService.modifyPost(dto,id, authentication.getName());
         PostModifyResponse response = new PostModifyResponse("포스트 수정 완료",post.getId());
         return Response.success(response);
     }
