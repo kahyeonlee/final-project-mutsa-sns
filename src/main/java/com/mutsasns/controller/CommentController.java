@@ -1,7 +1,7 @@
 package com.mutsasns.controller;
 
-import com.mutsasns.domain.dto.CommentCreateRequest;
-import com.mutsasns.domain.response.CommentCreateResponse;
+import com.mutsasns.domain.dto.CommentRequest;
+import com.mutsasns.domain.response.CommentResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,14 @@ public class CommentController {
 
     //댓글 작성
     @PostMapping("/{postId}/comments")
-    public Response<CommentCreateResponse> create(@RequestBody CommentCreateRequest dto,@PathVariable long postId, @ApiIgnore Authentication authentication){
+    public Response<CommentResponse> create(@RequestBody CommentRequest dto, @PathVariable long postId, @ApiIgnore Authentication authentication){
         log.info("댓글 작성자 이름 {}",authentication.getName());
         return Response.success(commentService.createComment(dto, postId, authentication.getName()));
+    }
+    //댓글 수정
+    @PutMapping("/{postId}/comments/{id}")
+    public Response<CommentResponse> modify(@RequestBody CommentRequest dto, @PathVariable Long postId,@PathVariable Long id, @ApiIgnore Authentication authentication){
+        log.info("댓글 수정자 이름 {}",authentication.getName());
+        return Response.success(commentService.modifyComment(dto, postId, id,authentication.getName()));
     }
 }
