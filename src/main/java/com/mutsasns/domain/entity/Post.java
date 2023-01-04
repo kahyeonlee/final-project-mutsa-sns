@@ -2,8 +2,13 @@ package com.mutsasns.domain.entity;
 
 import com.mutsasns.domain.dto.PostDto;
 import lombok.*;
+import net.bytebuddy.dynamic.DynamicType;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -11,6 +16,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE post SET deleted = true WHERE post_id = ?")
 public class Post extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +32,8 @@ public class Post extends BaseEntity{
     @Column(length = 300)
     private String body;
 
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    private boolean deleted = false;
 }
