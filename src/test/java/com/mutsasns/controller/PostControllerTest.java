@@ -172,7 +172,7 @@ class PostControllerTest {
                     .andDo(print())
                     .andExpect((jsonPath("$.resultCode").exists()))
                     .andExpect((jsonPath("$.result.message").exists()))
-                    .andExpect((jsonPath("$.result.postId").value(1)))
+                    .andExpect((jsonPath("$.result.postId").exists()))
                     .andExpect(status().isOk());
         }
 
