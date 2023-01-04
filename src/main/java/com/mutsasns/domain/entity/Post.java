@@ -25,9 +25,4 @@ public class Post extends BaseEntity{
     @Column(length = 300)
     private String body;
 
-    public void modify(String modifyTitle,String modifyBody){
-        this.title = modifyTitle;
-        this.body = modifyBody;
-    }
-
 }

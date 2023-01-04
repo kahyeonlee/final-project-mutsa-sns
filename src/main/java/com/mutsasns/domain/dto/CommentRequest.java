@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-public class CommentCreateRequest {
+public class CommentRequest {
     private String comment;
 }

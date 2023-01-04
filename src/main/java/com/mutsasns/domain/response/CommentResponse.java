@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Getter
-public class CommentCreateResponse {
+public class CommentResponse {
     private Long id;
     private String comment;
     private String userName;
@@ -22,14 +22,27 @@ public class CommentCreateResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime lastModifiedAt;
 
-    public static CommentCreateResponse of(Comment comment) {
-        return CommentCreateResponse.builder()
+
+    public static CommentResponse create(Comment comment) {
+        return CommentResponse.builder()
                 .id(comment.getId())
                 .comment(comment.getComment())
                 .userName(comment.getUser().getUserName())
                 .postId(comment.getPost().getId())
                 .createdAt(comment.getCreatedAt())
+                .build();
+    }
+    public static CommentResponse modify(Comment comment) {
+        return CommentResponse.builder()
+                .id(comment.getId())
+                .comment(comment.getComment())
+                .userName(comment.getUser().getUserName())
+                .postId(comment.getPost().getId())
+                .createdAt(comment.getCreatedAt())
+                .lastModifiedAt(comment.getCreatedAt())
                 .build();
     }
 }
