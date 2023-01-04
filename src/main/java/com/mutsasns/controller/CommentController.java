@@ -1,6 +1,9 @@
 package com.mutsasns.controller;
 
+import com.mutsasns.domain.dto.CommentDto;
 import com.mutsasns.domain.dto.CommentRequest;
+import com.mutsasns.domain.dto.PostDto;
+import com.mutsasns.domain.entity.Comment;
 import com.mutsasns.domain.response.CommentDeleteResponse;
 import com.mutsasns.domain.response.CommentCreateResponse;
 import com.mutsasns.domain.response.CommentModifyResponse;
@@ -8,6 +11,10 @@ import com.mutsasns.domain.response.Response;
 import com.mutsasns.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -38,10 +45,17 @@ public class CommentController {
     //댓글 삭제
     @DeleteMapping("/{postsId}/comments/{id}")
     public Response<CommentDeleteResponse> delete(@PathVariable Long postsId,@PathVariable Long id, @ApiIgnore Authentication authentication){
-        log.info("댓글 수정자 이름 {}",authentication.getName());
+        log.info("댓글 삭제하는 user 이름 {}",authentication.getName());
         log.info("postsId {}",postsId);
         commentService.deleteComment(postsId, id, authentication.getName());
         return Response.success(new CommentDeleteResponse("댓글 삭제 완료",id));
+    }
+
+    //댓글 조회
+    @GetMapping("{postId}/comments")
+    public Response<Page<CommentDto>> pageable(@PageableDefault(sort = "createdAt",size = 20,direction = Sort.Direction.DESC) Pageable pageable){
+        Page<CommentDto> commentDto = commentService.pageList(pageable);
+        return Response.success(commentDto);
     }
 
 }

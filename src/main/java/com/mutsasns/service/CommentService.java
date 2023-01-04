@@ -1,6 +1,8 @@
 package com.mutsasns.service;
 
+import com.mutsasns.domain.dto.CommentDto;
 import com.mutsasns.domain.dto.CommentRequest;
+import com.mutsasns.domain.dto.PostDto;
 import com.mutsasns.domain.entity.Comment;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.entity.User;
@@ -13,6 +15,8 @@ import com.mutsasns.repository.PostRepository;
 import com.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -106,4 +110,12 @@ public class CommentService {
         log.info("삭제 서비스 성공");
         return true;
     }
+
+    //댓글 목록 조뢰
+    public Page<CommentDto> pageList(Pageable pageable){
+        Page<Comment>  comment = commentRepository.findAll(pageable);
+        Page<CommentDto> commentDto = CommentDto.toDto(comment);
+        return commentDto;
+    }
+
 }

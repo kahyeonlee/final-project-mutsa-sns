@@ -1,19 +1,21 @@
-package com.mutsasns.domain.response;
+package com.mutsasns.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mutsasns.domain.entity.Comment;
+import com.mutsasns.domain.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDateTime;
 
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-public class CommentCreateResponse {
+public class CommentDto {
     private Long id;
     private String comment;
     private String userName;
@@ -23,13 +25,15 @@ public class CommentCreateResponse {
     private LocalDateTime createdAt;
 
 
-    public static CommentCreateResponse of(Comment c) {
-        return CommentCreateResponse.builder()
+    public static Page<CommentDto> toDto(Page<Comment> comment) {
+        Page<CommentDto> commentDto = comment.map(c -> CommentDto.builder()
                 .id(c.getId())
                 .comment(c.getComment())
                 .userName(c.getUser().getUserName())
                 .postId(c.getPost().getId())
                 .createdAt(c.getCreatedAt())
-                .build();
+                .build());
+        return commentDto;
+
     }
 }
