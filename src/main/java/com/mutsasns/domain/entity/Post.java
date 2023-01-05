@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @Builder
@@ -25,7 +25,7 @@ public class Post extends BaseEntity{
     private Long id;
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -34,6 +34,9 @@ public class Post extends BaseEntity{
 
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Like> like = new ArrayList<>();
 
     private boolean deleted = false;
 }

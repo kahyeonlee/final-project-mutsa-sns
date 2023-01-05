@@ -50,7 +50,9 @@ public class CommentService {
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
+
         log.info("저장성공");
+
         return CommentCreateResponse.of(savedComment);
     }
 

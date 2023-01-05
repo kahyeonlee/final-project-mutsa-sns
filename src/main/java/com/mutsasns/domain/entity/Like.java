@@ -7,20 +7,18 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Table(name = "Likes")
 @Where(clause = "deleted = false")
-@SQLDelete(sql = "UPDATE comment SET deleted = true WHERE id = ?")
-public class Comment extends BaseEntity{
+@SQLDelete(sql = "UPDATE likes SET deleted = true WHERE like_id = ?")
+public class Like extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="like_id")
     private Long id;
-
-    @Column(length = 100)
-    private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -30,5 +28,11 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "deleted")
     private boolean deleted = false;
+
+    public Like(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
 }

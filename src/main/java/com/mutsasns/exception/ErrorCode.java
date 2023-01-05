@@ -21,6 +21,8 @@ public enum ErrorCode {
     POST_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 포스트가 없습니다."),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 댓글이 없습니다."),
 
+    LIKE_DUPLICATION(HttpStatus.CONFLICT,"이미 좋아요를 눌렀던 게시글입니다."),
+
     DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DB에러");
 
     private HttpStatus httpStatus;
