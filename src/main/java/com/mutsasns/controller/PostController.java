@@ -67,4 +67,11 @@ public class PostController {
         Page<PostDto> postDto = postService.pageList(pageable);
         return Response.success(postDto);
     }
+
+    //마이 피드 조회
+    @GetMapping("/my")
+    public Response<Page<PostDto>> myPostList(@PageableDefault(sort = "createdAt",size = 20,direction = Sort.Direction.DESC)Pageable pageable,@ApiIgnore Authentication authentication){
+        Page<PostDto> postDto = postService.myPostList(pageable,authentication.getName());
+        return Response.success(postDto);
+    }
 }

@@ -98,12 +98,24 @@ public class PostService {
         return PostDto.fromEntity(post);
     }
 
-    //포스트 목록 조뢰
+    //포스트 목록 조회
     public Page<PostDto> pageList(Pageable pageable){
         Page<Post>  post = postRepository.findAll(pageable);
         Page<PostDto> postDto = PostDto.toDto(post);
         return postDto;
     }
 
+    //유저의 포스트 목록 조회
+    public Page<PostDto> myPostList(Pageable pageable,String userName){
+
+        //userName 정보를 못찾을때 에러처리
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(() -> new AppException(ErrorCode.USERNAME_NOT_FOUND));
+
+
+        Page<Post>  post = postRepository.findByUserId(user.getId(), pageable);
+        Page<PostDto> postDto = PostDto.toDto(post);
+        return postDto;
+    }
 }
 
