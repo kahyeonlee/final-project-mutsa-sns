@@ -40,4 +40,11 @@ public class LikeService {
         likeRepository.save(like);
     }
 
+    public Integer cntLike(Long postsId){
+        //postId 없을때 에러 처리
+        Post foundPost = postRepository.findById(postsId)
+                .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
+        return Math.toIntExact(likeRepository.count());
+    }
+
 }

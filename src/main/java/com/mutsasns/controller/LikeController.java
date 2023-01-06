@@ -22,4 +22,9 @@ public class LikeController {
         likeService.addLike(postId, authentication.getName());
         return Response.success("좋아요를 눌렀습니다.");
     }
+
+    @GetMapping("/{postsId}/likes")
+    public Response<Integer> likeCount(@PathVariable Long postsId){
+        return Response.success(likeService.cntLike(postsId));
+    }
 }
