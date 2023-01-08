@@ -19,4 +19,5 @@ public class Response<T> {
     public static Response<Void> success() {
         return new Response("SUCCESS", null);
     }
+
 }

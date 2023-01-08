@@ -1,8 +1,10 @@
 package com.mutsasns.service;
 
+import com.mutsasns.domain.AlarmType;
 import com.mutsasns.domain.dto.CommentDto;
 import com.mutsasns.domain.dto.CommentRequest;
 import com.mutsasns.domain.dto.PostDto;
+import com.mutsasns.domain.entity.Alarm;
 import com.mutsasns.domain.entity.Comment;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.entity.User;
@@ -10,6 +12,7 @@ import com.mutsasns.domain.response.CommentCreateResponse;
 import com.mutsasns.domain.response.CommentModifyResponse;
 import com.mutsasns.exception.AppException;
 import com.mutsasns.exception.ErrorCode;
+import com.mutsasns.repository.AlarmRepository;
 import com.mutsasns.repository.CommentRepository;
 import com.mutsasns.repository.PostRepository;
 import com.mutsasns.repository.UserRepository;
@@ -29,6 +32,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
 
     /*
     댓글작성
@@ -52,6 +56,17 @@ public class CommentService {
         Comment savedComment = commentRepository.save(comment);
 
         log.info("저장성공");
+
+        //알람 저장
+        alarmRepository.save(Alarm.builder()
+                .fromUserId(savedComment.getUser().getId())
+                .targetId(savedComment.getPost().getId())
+                .alarmType(AlarmType.NEW_COMMENT_ON_POST)
+                .text(AlarmType.NEW_COMMENT_ON_POST.getText())
+                .user(savedComment.getUser())
+                .build());
+
+        log.info("알람 저장 성공");
 
         return CommentCreateResponse.of(savedComment);
     }

@@ -1,10 +1,14 @@
 package com.mutsasns.service;
 
+import com.mutsasns.domain.AlarmType;
+import com.mutsasns.domain.dto.AlarmDto;
+import com.mutsasns.domain.entity.Alarm;
 import com.mutsasns.domain.entity.Like;
 import com.mutsasns.domain.entity.Post;
 import com.mutsasns.domain.entity.User;
 import com.mutsasns.exception.AppException;
 import com.mutsasns.exception.ErrorCode;
+import com.mutsasns.repository.AlarmRepository;
 import com.mutsasns.repository.LikeRepository;
 import com.mutsasns.repository.PostRepository;
 import com.mutsasns.repository.UserRepository;
@@ -20,6 +24,7 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final AlarmRepository alarmRepository;
 
     public void addLike(Long postId, String userName) {
         //postId 없을때 에러 처리
@@ -34,8 +39,20 @@ public class LikeService {
                 .ifPresent(like -> {
                     throw new AppException(ErrorCode.LIKE_DUPLICATION);
                 });
-        //저장
+        //좋아요 저장
         Like like = new Like(foundUser, foundPost);
+        log.info("좋아요 저장 성공");
+
+        //알람에 저장
+        alarmRepository.save(Alarm.builder()
+                        .fromUserId(like.getUser().getId())
+                        .targetId(like.getPost().getId())
+                        .alarmType(AlarmType.NEW_LIKE_ON_POST)
+                        .text(AlarmType.NEW_LIKE_ON_POST.getText())
+                        .user(like.getUser())
+                .build());
+
+        log.info("알람 저장 성공");
 
         likeRepository.save(like);
     }
@@ -46,5 +63,4 @@ public class LikeService {
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
         return Math.toIntExact(likeRepository.count());
     }
-
 }
