@@ -1,7 +1,6 @@
 package com.mutsasns.service;
 
 import com.mutsasns.domain.AlarmType;
-import com.mutsasns.domain.dto.AlarmDto;
 import com.mutsasns.domain.entity.Alarm;
 import com.mutsasns.domain.entity.Like;
 import com.mutsasns.domain.entity.Post;
@@ -15,6 +14,8 @@ import com.mutsasns.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 @Service
@@ -61,6 +62,7 @@ public class LikeService {
         //postId 없을때 에러 처리
         Post foundPost = postRepository.findById(postsId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
-        return Math.toIntExact(likeRepository.count());
+
+        return likeRepository.countByPostId(foundPost.getId());
     }
 }
