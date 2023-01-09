@@ -9,6 +9,8 @@ import com.mutsasns.domain.response.CommentCreateResponse;
 import com.mutsasns.domain.response.CommentModifyResponse;
 import com.mutsasns.domain.response.Response;
 import com.mutsasns.service.CommentService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,17 +28,20 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor
 @Slf4j
+@Api(tags = "3. 댓글")
 public class CommentController {
     private final CommentService commentService;
 
     //댓글 작성
     @PostMapping("/{postId}/comments")
+    @Operation(summary = "댓글 작성", description = "로그인 후, 댓글 작성")
     public Response<CommentCreateResponse> create(@RequestBody CommentRequest dto, @PathVariable Long postId, @ApiIgnore Authentication authentication){
         log.info("댓글 작성자 이름 {}",authentication.getName());
         return Response.success(commentService.createComment(dto, postId, authentication.getName()));
     }
     //댓글 수정
     @PutMapping("/{postId}/comments/{id}")
+    @Operation(summary = "댓글 수정", description = "로그인 후, 댓글 수정")
     public Response<CommentModifyResponse> modify(@RequestBody CommentRequest dto, @PathVariable Long postId, @PathVariable Long id, @ApiIgnore Authentication authentication){
         log.info("댓글 수정자 이름 {}",authentication.getName());
         return Response.success(commentService.modifyComment(dto, postId, id,authentication.getName()));
@@ -44,6 +49,7 @@ public class CommentController {
 
     //댓글 삭제
     @DeleteMapping("/{postsId}/comments/{id}")
+    @Operation(summary = "댓글 삭제", description = "로그인 후, 댓글 삭제")
     public Response<CommentDeleteResponse> delete(@PathVariable Long postsId,@PathVariable Long id, @ApiIgnore Authentication authentication){
         log.info("댓글 삭제하는 user 이름 {}",authentication.getName());
         log.info("postsId {}",postsId);
@@ -53,6 +59,7 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("{postId}/comments")
+    @Operation(summary = "댓글 조회", description = "로그인 후, 댓글 조회")
     public Response<Page<CommentDto>> pageable(@PageableDefault(sort = "createdAt",size = 20,direction = Sort.Direction.DESC) Pageable pageable){
         Page<CommentDto> commentDto = commentService.pageList(pageable);
         return Response.success(commentDto);
