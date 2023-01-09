@@ -29,7 +29,7 @@ public class SwaggerConfig {
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title(title)
-                .description("<h3>Swagger를 이용한 Mutsa-sns API</h3><img src=\"https://user-images.githubusercontent.com/114658792/211241943-4a1eb1a0-4b6a-450e-9877-4df1ef54229b.png\" width=150 height=150 />")
+                .description("<h3>Swagger를 이용한 Mutsa-sns API</h3><img src=\"https://user-images.githubusercontent.com/114658792/211241943-4a1eb1a0-4b6a-450e-9877-4df1ef54229b.png\" width=300 height=300 />")
                 .contact(new Contact("KAHYUN", "https://velog.io/@gmeoq", "gmeoqq@gmail.com"))
                 .version("1.0").build();
     }
