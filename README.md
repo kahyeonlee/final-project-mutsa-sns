@@ -329,7 +329,7 @@
   }
 }
 ```
-#### **11. 댓글 목록 조회 - DELETE /api/v1/posts/{postId}/comments/{id}**
+#### **11. 댓글 목록 조회 - GET /api/v1/posts/{postId}/comments/{id}**
 - 리턴 (JSON 형식)
 ```json
 {
