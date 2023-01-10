@@ -89,7 +89,7 @@
 
 ### 📉 ERD Diagram
 ***
-![](../../Pictures/멋사_erd.png)
+![멋사_erd](https://user-images.githubusercontent.com/114658792/211472194-72023b5e-b7da-4c0a-ba61-d323662c77d6.png)
 
 
 <br>
