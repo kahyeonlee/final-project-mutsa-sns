@@ -57,7 +57,9 @@ public class CommentService {
         log.info("저장성공");
 
         //알람 저장
-        alarmRepository.save(Alarm.of(savedComment));
+        if (userName != foundUser.getUserName()) {
+            alarmRepository.save(Alarm.of(savedComment));
+        }
         log.info("알람 저장 성공");
 
         return CommentCreateResponse.of(savedComment);

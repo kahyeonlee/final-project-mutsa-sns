@@ -47,7 +47,9 @@ public class LikeService {
         log.info("좋아요 저장 성공");
 
         //알람에 저장
-        alarmRepository.save(Alarm.of(savedlike));
+        if (userName != foundUser.getUserName()) {
+            alarmRepository.save(Alarm.of(savedlike));
+        }
         log.info("알람 저장 성공");
 
         return true;
