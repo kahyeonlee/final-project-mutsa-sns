@@ -1,7 +1,6 @@
 package com.mutsasns.domain.entity;
 
 import com.mutsasns.domain.AlarmType;
-import com.mutsasns.domain.UserRole;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -33,5 +32,25 @@ public class Alarm extends BaseEntity {
     private Long targetId; //알람이 발생된 post의 id
 
     private String text;
+
+    public static Alarm of(Like savedLike) {
+        return Alarm.builder()
+                .fromUserId(savedLike.getUser().getId())
+                .targetId(savedLike.getPost().getId())
+                .alarmType(AlarmType.NEW_LIKE_ON_POST)
+                .text(AlarmType.NEW_LIKE_ON_POST.getText())
+                .user(savedLike.getUser())
+                .build();
+    }
+
+    public static Alarm of(Comment savedComment) {
+        return Alarm.builder()
+                .fromUserId(savedComment.getUser().getId())
+                .targetId(savedComment.getPost().getId())
+                .alarmType(AlarmType.NEW_COMMENT_ON_POST)
+                .text(AlarmType.NEW_COMMENT_ON_POST.getText())
+                .user(savedComment.getUser())
+                .build();
+    }
 
 }

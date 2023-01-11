@@ -8,9 +8,9 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Table(name = "Likes")
 @Where(clause = "deleted = false")
 @SQLDelete(sql = "UPDATE likes SET deleted = true WHERE like_id = ?")
@@ -31,8 +31,10 @@ public class Like extends BaseEntity{
     @Column(name = "deleted")
     private boolean deleted = false;
 
-    public Like(User user, Post post) {
-        this.user = user;
-        this.post = post;
+    public static Like createLike(User user, Post post) {
+        return Like.builder()
+                .user(user)
+                .post(post)
+                .build();
     }
 }

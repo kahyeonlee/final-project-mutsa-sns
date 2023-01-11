@@ -27,7 +27,7 @@ public class LikeService {
     private final UserRepository userRepository;
     private final AlarmRepository alarmRepository;
 
-    public void addLike(Long postId, String userName) {
+    public boolean addLike(Long postId, String userName) {
         //postId 없을때 에러 처리
         Post foundPost = postRepository.findById(postId)
                 .orElseThrow(() -> new AppException(ErrorCode.POST_NOT_FOUND));
@@ -40,22 +40,17 @@ public class LikeService {
                 .ifPresent(like -> {
                     throw new AppException(ErrorCode.LIKE_DUPLICATION);
                 });
+
         //좋아요 저장
-        Like like = new Like(foundUser, foundPost);
+        Like savedlike = Like.createLike(foundUser,foundPost);
+        likeRepository.save(savedlike);
         log.info("좋아요 저장 성공");
 
         //알람에 저장
-        alarmRepository.save(Alarm.builder()
-                        .fromUserId(like.getUser().getId())
-                        .targetId(like.getPost().getId())
-                        .alarmType(AlarmType.NEW_LIKE_ON_POST)
-                        .text(AlarmType.NEW_LIKE_ON_POST.getText())
-                        .user(like.getUser())
-                .build());
-
+        alarmRepository.save(Alarm.of(savedlike));
         log.info("알람 저장 성공");
 
-        likeRepository.save(like);
+        return true;
     }
 
     public Integer cntLike(Long postsId){

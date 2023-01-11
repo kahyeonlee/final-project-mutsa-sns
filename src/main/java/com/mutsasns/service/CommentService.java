@@ -54,18 +54,10 @@ public class CommentService {
                 .build();
 
         Comment savedComment = commentRepository.save(comment);
-
         log.info("저장성공");
 
         //알람 저장
-        alarmRepository.save(Alarm.builder()
-                .fromUserId(savedComment.getUser().getId())
-                .targetId(savedComment.getPost().getId())
-                .alarmType(AlarmType.NEW_COMMENT_ON_POST)
-                .text(AlarmType.NEW_COMMENT_ON_POST.getText())
-                .user(savedComment.getUser())
-                .build());
-
+        alarmRepository.save(Alarm.of(savedComment));
         log.info("알람 저장 성공");
 
         return CommentCreateResponse.of(savedComment);
@@ -127,8 +119,9 @@ public class CommentService {
         log.info("삭제 서비스 성공");
         return true;
     }
-
-    //댓글 목록 조뢰
+    /*
+    댓글 목록 조회
+     */
     public Page<CommentDto> pageList(Pageable pageable){
         Page<Comment>  comment = commentRepository.findAll(pageable);
         Page<CommentDto> commentDto = CommentDto.toDto(comment);
